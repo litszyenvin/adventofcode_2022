@@ -18,4 +18,8 @@ for line in lines:
         list_of_sums.append(sum)
         sum = 0
 
-print(max(list_of_sums))
+list_of_sums = sorted(list_of_sums)
+print(list_of_sums)
+
+sum_of_top3 = list_of_sums[-1] + list_of_sums[-2] + list_of_sums[-3]
+print(sum_of_top3)
