@@ -5,6 +5,7 @@ import re
 with open('data\day4_input.txt') as f:
     pairs = f.readlines()
 
+
 all_overlaps = []
 any_overlaps = []
 for pair in pairs:
