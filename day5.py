@@ -36,7 +36,7 @@ for x, row in enumerate(rows):
         origin = int(instruction[1])
         destination = int(instruction[2])
         temp = stack_list[origin-1][-height:]
-        # temp = temp[::-1]
+        # temp = temp[::-1] #comment out for part 2, un-comment for part 1
         stack_list[origin-1] = stack_list[origin-1][:len(stack_list[origin-1])-height]
         stack_list[destination-1] = stack_list[destination-1] + temp
 
