@@ -1,99 +1,46 @@
 #%%
 import numpy as np
+import matplotlib.pyplot as plt
 
-with open('data\day8_input.txt') as f:
+with open('data\day9_input.txt') as f:
     lines = f.readlines()
 lines = [line.strip('\n') for line in lines]
-row = []
-map_list = []
-for line in lines:    
-    for num in line:
-        row.append(int(num))
-    map_list.append(row)
-    row = []
-map = np.array(map_list)
-# print(map)
 
-visible_count = 0
-map_visible = []
-row_visible = []
-vis_from_right = False
-vis_from_left = False
-vis_from_down = False
-vis_from_up = False
+head_path = ['0,0']
+tail_path = ['0,0']
+head_x_cor = head_y_cor = tail_x_cor = tail_y_cor = 0
+last_head_x_cor = last_head_y_cor = 0
 
-def findViewScore(value, arr):    
-    if (value>arr).sum()==arr.size:
-        score = len(arr)
-    else:
-        score = np.min(np.where((arr>=value)==True)) + 1
-    return score
+# fig, ax = plt.subplots(figsize=(5, 5))
+for line in lines:
+    for _ in range(int(line.split()[1])):
+        if line.split()[0] == 'L':
+            head_x_cor -= 1
+        if line.split()[0] == 'R':
+            head_x_cor += 1
+        if line.split()[0] == 'U':
+            head_y_cor += 1
+        if line.split()[0] == 'D':
+            head_y_cor -= 1   
     
-    
+        dist = ((head_x_cor-tail_x_cor)**2 + (head_y_cor-tail_y_cor)**2)**0.5
+        if dist >= 2:
+            tail_x_cor = last_head_x_cor
+            tail_y_cor = last_head_y_cor
 
-for row_idx in range(map.shape[0]):
-    for col_idx in range(map.shape[1]):
-        current_height = map[row_idx,col_idx]
-        # print(current_height)
-        if (current_height>map[row_idx,col_idx+1:]).sum()==map[row_idx,col_idx+1:].size:
-            vis_from_right = True
-        if (current_height>map[row_idx,:col_idx]).sum()==map[row_idx,:col_idx].size:
-            vis_from_left = True
-        if (current_height>map[row_idx+1:,col_idx]).sum()==map[row_idx+1:,col_idx].size:
-            vis_from_down = True
-        if (current_height>map[:row_idx,col_idx]).sum()==map[:row_idx,col_idx].size:
-            vis_from_up = True
-
-        if vis_from_right == True or vis_from_left == True or vis_from_down == True or vis_from_up == True:
-            visible = 1
-            visible_count += 1
-        row_visible.append(visible)
-        visible = 0
-        vis_from_right = vis_from_left = vis_from_down = vis_from_up = False
-
-    map_visible.append(row_visible)
-    # print(map_visible)
-    row_visible = []
-#%%
-# print(map_visible)
-print(np.sum(np.array(map_visible)))
-# print(visible_count)
-# %%
-row_score = []
-map_score = []
-view_to_right = view_to_left = view_to_down = view_to_up = 0
-for row_idx in range(map.shape[0]):
-    for col_idx in range(map.shape[1]):
-        current_height = map[row_idx,col_idx]
-        # print(current_height)
-        slice_to_right = map[row_idx,col_idx+1:]
-        slice_to_left = map[row_idx,:col_idx]
-        slice_to_down = map[row_idx+1:,col_idx]
-        slice_to_up = map[:row_idx,col_idx]
+        last_head_x_cor = head_x_cor
+        last_head_y_cor = head_y_cor
+        head_path.append(str(head_x_cor) + ',' + str(head_y_cor))
+        tail_path.append(str(tail_x_cor) + ',' + str(tail_y_cor))
+        print(str(head_x_cor)+','+str(head_y_cor)+'    '+str(tail_x_cor)+','+str(tail_y_cor))
+        # plt.xlim([-80, 30])
+        # plt.ylim([-80, 30])        
+        # plt.plot(head_x_cor,head_y_cor, 'o')
+        # plt.plot(tail_x_cor,tail_y_cor, 'x')
+        # plt.pause(0.001)
+        # plt.clf()
         
-        if col_idx != map.shape[1] or row_idx != map.shape[0]:
-
-            if len(slice_to_right)!=0:        
-                view_to_right = findViewScore(current_height, slice_to_right)
-            # print(view_to_right)
-            if len(slice_to_left)!=0:
-                view_to_left = findViewScore(current_height, np.flip(slice_to_left))
-            # print(view_to_left)
-            if len(slice_to_down)!=0:
-                view_to_down = findViewScore(current_height, slice_to_down)
-            # print(view_to_down)
-            if len(slice_to_up)!=0:
-                view_to_up = findViewScore(current_height, np.flip(slice_to_up))
-            # print(view_to_up)
-          
-        scenic_score = view_to_right * view_to_left * view_to_down * view_to_up
-        row_score.append(scenic_score)
-        # print(row_score)
-        view_to_right = view_to_left = view_to_down = view_to_up = 0
-
-    map_score.append(row_score)
-    # print(map_visible)
-    row_score = []
-
-# print(map_score)
-print(np.max(np.array(map_score)))
+#%%
+# plt.show()
+part1_ans = len(set(tail_path))
+print(part1_ans)
