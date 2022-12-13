@@ -71,16 +71,23 @@ def monkey_throw_part2(monkeys, id, operation, operation_num, test_num, ifTrueTo
 
 
 
-for round in range(20):
-    monkey_throw(monkeys, 0, '*', 7, 3, 3, 7)
-    monkey_throw(monkeys, 1, '+', 5, 11, 6, 4)
-    monkey_throw(monkeys, 2, '**', 2, 7, 0, 7)
-    monkey_throw(monkeys, 3, '+', 4, 2, 5, 1)
-    monkey_throw(monkeys, 4, '*', 17, 19, 2, 6)
-    monkey_throw(monkeys, 5, '+', 7, 5, 1, 4)
-    monkey_throw(monkeys, 6, '+', 6, 17, 2, 0)
-    monkey_throw(monkeys, 7, '+', 3, 13, 3, 5)
-    # print(str(round/10000*100) + '%')
+for round in range(10000):
+    monkey_throw_part2(monkeys, 0, '*', 7, 3, 3, 7)
+    monkey_throw_part2(monkeys, 1, '+', 5, 11, 6, 4)
+    monkey_throw_part2(monkeys, 2, '**', 2, 7, 0, 7)
+    monkey_throw_part2(monkeys, 3, '+', 4, 2, 5, 1)
+    monkey_throw_part2(monkeys, 4, '*', 17, 19, 2, 6)
+    monkey_throw_part2(monkeys, 5, '+', 7, 5, 1, 4)
+    monkey_throw_part2(monkeys, 6, '+', 6, 17, 2, 0)
+    monkey_throw_part2(monkeys, 7, '+', 3, 13, 3, 5)
+# print(monkeys[0])
+# print(monkeys[1])
+# print(monkeys[2])
+# print(monkeys[3])
+# print(monkeys[4])
+# print(monkeys[5])
+# print(monkeys[6])
+# print(monkeys[7])
 
 inspects = sorted(inspects)
 print(inspects)
